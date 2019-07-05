@@ -149,7 +149,7 @@ def generate_notes(model, network_input, pitchnames, n_vocab):
         prediction_input = np.reshape(pattern, (1, len(pattern), 1))
         prediction_input = model.predict(prediction_input, verbose=0)
 
-        index = np.argmax(prediction)
+        index = np.argmax(prediction_input)
 
         result = int_to_note[index]
         prediction_output.append(result)
@@ -172,8 +172,8 @@ def create_midi(prediction_output):
             notes = []
 
             for current_note in notes_in_chord:
-                new_note = ntoe.Note(int(current_note))
-                new_note.storedInstrument = Instrument.Piano()
+                new_note = note.Note(int(current_note))
+                new_note.storedInstrument = instrument.Piano()
                 notes.append(new_note)
 
             new_chord = chord.Chord(notes)
@@ -185,7 +185,7 @@ def create_midi(prediction_output):
         else:
             new_note = note.Note(pattern)
             new_note.offset = offset
-            new_note.storedInstrument = Instrument.Piano()
+            new_note.storedInstrument = instrument.Piano()
 
             output_notes.append(new_note)
 
